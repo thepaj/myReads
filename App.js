@@ -11,7 +11,7 @@ class App extends React.Component {
     this.state = {
       books: [],
       searchedBooks: [],
-      query: ''
+      query: '',
     }
   }
 
@@ -54,6 +54,11 @@ class App extends React.Component {
           this.setState({ searchedBooks: mappedOverBooks });
           console.log(this.state.searchedBooks);
         })
+        .catch(() => {
+          this.setState({
+            searchedBooks: []
+          })
+        })
     }
   }
 
@@ -62,7 +67,7 @@ class App extends React.Component {
       <div>
         <Route exact path='/' render={() => (
           <BookList
-            onClick={this.onUpdateShelf}
+            onClick={this.handleChangeShelf}
             books={this.state.books}
           />
         )} />
