@@ -6,10 +6,13 @@ import BookList from './components/BookList';
 import SearchBooks from './components/SearchBooks';
 
 class App extends React.Component {
-  state = {
-    books: [],
-    query: '',
-    currentShelf: 'wantToRead'
+  constructor(props) {
+    super(props);
+    this.state = {
+      books: [],
+      searchedBooks: [],
+      query: ''
+    }
   }
 
   componentDidMount() {
@@ -22,49 +25,52 @@ class App extends React.Component {
       })
   }
 
-  // updateToRead = (book, shelf) => {
-  //   BooksAPI.update(book, shelf)
-  //     .then((shelf) => {
-  //       this.setState({
-  //         currentShelf: shelf
-  //       })
-  //       console.log('clicked');
-  //     })
-  // }
+  onInputChange = (event) => {
+    this.setState({
+      query: event.target.value
+    })
+    console.log(this.state.query);
+  }
 
-  // updateToWantToRead = (book, shelf) => {
-  //   BooksAPI.update(book, shelf)
-  //     .then(() => {
-  //       this.setState({
-  //         shelf: shelf
-  //       })
-  //     })
-  // }
+  onBookSearch = () => {
+    if (this.state.query === '') {
+      this.setState({
+        searchedBooks: []
+      })
+      console.log(`searched books : ${this.state.searchedBooks}`);
+    } else if (this.state.query !== '') {
+      BooksAPI.search(this.state.query)
+        .then(results => {
+          const mappedOverBooks = results
+            .map(result => {
+              this.state.books.forEach(book => {
+                if (result.id === book.id) {
+                  result.shelf = book.shelf;
+                }
+              })
+              return result
+            })
 
-  // updateToCurrentlyReading = (book, shelf) => {
-  //   BooksAPI.update(book, shelf)
-  //     .then(() => {
-  //       this.setState({
-  //         shelf: shelf
-  //       })
-  //     })
-  // }
+          this.setState({ searchedBooks: mappedOverBooks });
+          console.log(this.state.searchedBooks);
+        })
+    }
+  }
 
   render() {
     return (
       <div>
         <Route exact path='/' render={() => (
           <BookList
-            OnUpdateToReadClick={(book, shelf) => this.updateToRead(book, shelf)}
-            shelvedBooks={this.state.books}
-            currentShelf={this.state.currentShelf}
+            onClick={this.onUpdateShelf}
+            books={this.state.books}
           />
         )} />
         <Route path="/add" render={() => (
           <SearchBooks
-
-            shelvedBooks={this.state.books}
-
+            onChange={(event) => { this.onInputChange(event); this.onBookSearch() }}
+            query={this.state.query}
+            books={this.state.searchedBooks}
           />
         )} />
       </div>

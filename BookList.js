@@ -15,22 +15,20 @@ class BookList extends Component {
                     <Bookshelf
                         bookshelfTitle={'Currently Reading'}
                         bookshelfType={'currentlyReading'}
-                        shelvedBooks={this.props.shelvedBooks}
-                        shelf={this.props.currentShelf}
-                        onReadClick={this.props.OnUpdateToReadClick}
+                        books={this.props.books}
+                        onClick={this.props.onClick}
                     />
                     <Bookshelf
                         bookshelfTitle={'Want to read'}
                         bookshelfType={'wantToRead'}
-                        shelvedBooks={this.props.shelvedBooks}
-                        shelf={this.props.currentShelf}
-                        onReadClick={this.props.OnUpdateToReadClick}
+                        books={this.props.books}
+                        onClick={this.props.onClick}
                     />
                     <Bookshelf
                         bookshelfTitle={'Read'}
                         bookshelfType={'read'}
-                        shelvedBooks={this.props.shelvedBooks}
-                        shelf={this.props.currentShelf}
+                        books={this.props.books}
+                        onClick={this.props.onClick}
                     />
                 </div>
                 <div className="open-search">

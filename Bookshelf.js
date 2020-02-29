@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 class Bookshelf extends Component {
     render() {
-        const { bookshelfType } = this.props;
+        const { bookshelfType, books } = this.props;
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{this.props.bookshelfTitle}</h2>
                 <div className="bookshelf-books">
                     <ol className="books-grid">
-                        {this.props.shelvedBooks.filter((book) => (book.shelf === bookshelfType)).map((book) =>
+                        {books.filter((book) => (book.shelf === bookshelfType)).map((book) =>
                             <li key={book.id}>
                                 <div className="book">
                                     <div className="book-top">
@@ -16,13 +16,14 @@ class Bookshelf extends Component {
                                         <div className="book-shelf-changer">
                                             <select>
                                                 <option value="move" disabled>Move to...</option>
-                                                <option value="currentlyReading">Currently Reading</option>
-                                                <option value="wantToRead">Want to Read</option>
-                                                <option value="read">Read</option>
+                                                <option onClick={() => this.props.onClick(book.id, "currentlyReading")} value="currentlyReading">Currently Reading</option>
+                                                <option onClick={() => this.props.onClick(book.id, "wantToRead")} value="wantToRead">Want to Read</option>
+                                                <option onClick={() => this.props.onClick(book.id, "Read")} value="read">Read</option>
                                                 <option value="none">None</option>
                                             </select>
                                         </div>
                                     </div>
+                                    <button onClick={() => this.props.onClick()} > X </button>
                                     <div className="book-title">{book.title}</div>
                                     <div className="book-authors">{book.author}</div>
                                 </div>
